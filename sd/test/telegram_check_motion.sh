@@ -15,24 +15,23 @@ new_motion_file=1
 while [ 1 -eq 1 ] 
   do
     motion_file=$(find . -type f -name "*.mp4" -mmin -1 | tail -1)
-    echo "M="$motion_file
     echo $motion_file | sed "s/.\//record\//" > /home/hd1/test/http/motion
-	
 
 send_motion_file=$(echo $motion_file  | sed "s/.\//\/home\/hd1\/record\//")
 
 if [[ "$motion_file" = "$old_motion_file" ]];  then
-	echo "Строки одинаковые"
+	echo "math"
 ##	
 	else 
-	echo "Строки не одинаковые"
-	#/home/curl --insecure --data "chat_id=$CHAT_ID_1&text=Moving detection" https://api.telegram.org/bot$API_TOKEN/sendMessage > /dev/null
+	echo "Not match"
 	
+	## Send text to users
+	#/home/curl --insecure --data "chat_id=$CHAT_ID_1&text=Moving detection" https://api.telegram.org/bot$API_TOKEN/sendMessage > /dev/null
 	#/home/curl --insecure --data "chat_id=$CHAT_ID_2&text=Moving detection" https://api.telegram.org/bot$API_TOKEN/sendMessage > /dev/null
-		
-		/home/curl --insecure  -F document=@$send_motion_file  https://api.telegram.org/bot$API_TOKEN/sendDocument?chat_id=$CHAT_ID_1 > /dev/null
-		
-		/home/curl --insecure  -F document=@$send_motion_file  https://api.telegram.org/bot$API_TOKEN/sendDocument?chat_id=$CHAT_ID_2 > /dev/null
+	
+	## Send Video to users
+	/home/curl --insecure  -F document=@$send_motion_file  https://api.telegram.org/bot$API_TOKEN/sendDocument?chat_id=$CHAT_ID_1 > /dev/null
+	/home/curl --insecure  -F document=@$send_motion_file  https://api.telegram.org/bot$API_TOKEN/sendDocument?chat_id=$CHAT_ID_2 > /dev/null
 		
 	old_motion_file=$motion_file;
 fi
